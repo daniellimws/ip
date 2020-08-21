@@ -2,12 +2,33 @@ import java.util.Scanner;
 
 public class Duke {
 
-    private static int requestsCount = 0;
-    private static String[] requests = new String[100];
+    private static int taskCount = 0;
+    private static Task[] tasks = new Task[100];
 
     private static void printRequests() {
-        for (int i = 0; i < requestsCount; ++i) {
-            System.out.printf("  %d. %s\n", i + 1, requests[i]);
+        if (taskCount == 0) {
+            System.out.println("There are currently no tasks in your list.");
+            return;
+        }
+        System.out.println("Here are the tasks in your list:");
+        for (int i = 0; i < taskCount; ++i) {
+            System.out.printf("  %d. %s\n", i + 1, tasks[i]);
+        }
+    }
+
+    private static void markTaskDone(String cmd) {
+        String[] words = cmd.split(" ");
+        if (words.length > 1 && words[1].matches("\\d+")) {
+            int index = Integer.parseInt(words[1]);
+            if (index <= taskCount && index > 0) {
+                tasks[index - 1].markAsDone();
+
+                System.out.println("Ok! I've marked this task as done:");
+                System.out.printf("  %s\n", tasks[index - 1]);
+            } else System.out.printf("Error: Task %d does not exist\n", index);
+        } else {
+            System.out.println("Usage: done [task index]");
+            System.out.println("Example: done 1");
         }
     }
 
@@ -32,23 +53,20 @@ public class Duke {
         System.out.println("Hello. What can I do for you?");
 
         Scanner in = new Scanner(System.in);
-        Boolean isRunning = true;
 
-        while (isRunning) {
+        while (true) {
+            System.out.print("> ");
             String cmd = in.nextLine();
 
-            switch (cmd.toLowerCase()) {
-            case "list":
+            if (cmd.equals("bye")) {
+                break;
+            } else if (cmd.equals("list")) {
                 printRequests();
-                break;
-            case "bye":
-                System.out.println("Bye. Hope to see you again soon!");
-                isRunning = false;
-                break;
-            default:
+            } else if (cmd.startsWith("done")) {
+                markTaskDone(cmd);
+            } else {
                 System.out.printf(" added: %s\n", cmd);
-                requests[requestsCount++] = cmd;
-                break;
+                tasks[taskCount++] = new Task(cmd);
             }
 
             System.out.println("");
