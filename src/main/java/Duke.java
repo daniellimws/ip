@@ -1,3 +1,8 @@
+import Task.Deadline;
+import Task.Event;
+import Task.Task;
+import Task.Todo;
+
 import java.util.Scanner;
 
 public class Duke {
@@ -5,7 +10,7 @@ public class Duke {
     private static int taskCount = 0;
     private static Task[] tasks = new Task[100];
 
-    private static void printRequests() {
+    private static void printTasks() {
         if (taskCount == 0) {
             System.out.println("There are currently no tasks in your list.");
             return;
@@ -30,6 +35,46 @@ public class Duke {
             System.out.println("Usage: done [task index]");
             System.out.println("Example: done 1");
         }
+    }
+
+    private static Todo parseTodoCommand(String cmd) {
+        int descriptionIndex = "todo ".length();
+        String description = cmd.substring(descriptionIndex);
+        return new Todo(description);
+    }
+
+    private static Deadline parseDeadlineCommand(String cmd) {
+        int descriptionIndex = "deadline ".length();
+        int dateIndex = cmd.indexOf("/by ");
+        String description = cmd.substring(descriptionIndex, dateIndex - 1);
+        String date = cmd.substring(dateIndex + "/by ".length());
+        return new Deadline(description, date);
+    }
+
+    private static Event parseEventCommand(String cmd) {
+        int descriptionIndex = "event ".length();
+        int dateIndex = cmd.indexOf("/at ");
+        String description = cmd.substring(descriptionIndex, dateIndex - 1);
+        String date = cmd.substring(dateIndex + "/at ".length());
+        return new Event(description, date);
+    }
+
+    private static Task parseTaskCommand(String cmd) {
+        if (cmd.startsWith("todo ")) {
+            return parseTodoCommand(cmd);
+        } else if (cmd.startsWith("deadline ")) {
+            return parseDeadlineCommand(cmd);
+        } else if (cmd.startsWith("event ")) {
+            return parseEventCommand(cmd);
+        }
+        return new Task(cmd);
+    }
+
+    private static void addTask(Task task) {
+        System.out.printf(" Added: %s\n", task);
+        tasks[taskCount++] = task;
+        System.out.printf(
+                " You now have %d task%s in your list.", taskCount, (taskCount == 1 ? "" : "s"));
     }
 
     public static void main(String[] args) {
@@ -61,12 +106,11 @@ public class Duke {
             if (cmd.equals("bye")) {
                 break;
             } else if (cmd.equals("list")) {
-                printRequests();
+                printTasks();
             } else if (cmd.startsWith("done")) {
                 markTaskDone(cmd);
             } else {
-                System.out.printf(" added: %s\n", cmd);
-                tasks[taskCount++] = new Task(cmd);
+                addTask(parseTaskCommand(cmd));
             }
 
             System.out.println("");
