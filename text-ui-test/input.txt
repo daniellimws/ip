@@ -1,0 +1,12 @@
+todo borrow book
+event lecture /at tomorrow 8am
+deadline tutorial /by i dont know
+list
+done
+done 1
+done 2
+done 3
+done -1
+done 4
+list
+bye
