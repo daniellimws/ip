@@ -16,37 +16,99 @@
 Hello. What can I do for you?
 >   Added: [T][✘] borrow book
   You now have 1 task in your list.
-
+  
 >   Added: [E][✘] lecture (at: tomorrow 8am)
   You now have 2 tasks in your list.
-
+  
 >   Added: [D][✘] tutorial (by: i dont know)
   You now have 3 tasks in your list.
-
+  
+>   Idk what's that boss.
+  Available commands are: help, list, todo, deadline, event, done, bye
+  
+  Todo:
+  Usage: todo [description]
+  Example: todo borrow book
+  
+  Deadline:
+  Usage: deadline [description] /by [when]
+  Example: deadline review pr /by tomorrow
+  
+  Event:
+  Usage: event [description] /at [when]
+  Example: event presentation /at tomorrow
+  
+  Done:
+  Usage: done [task index]
+  Example: done 1
+  
+>   Idk what's that boss.
+  Available commands are: help, list, todo, deadline, event, done, bye
+  
+  Todo:
+  Usage: todo [description]
+  Example: todo borrow book
+  
+  Deadline:
+  Usage: deadline [description] /by [when]
+  Example: deadline review pr /by tomorrow
+  
+  Event:
+  Usage: event [description] /at [when]
+  Example: event presentation /at tomorrow
+  
+  Done:
+  Usage: done [task index]
+  Example: done 1
+  
+>   Idk what's that boss.
+  Available commands are: help, list, todo, deadline, event, done, bye
+  
+  Todo:
+  Usage: todo [description]
+  Example: todo borrow book
+  
+  Deadline:
+  Usage: deadline [description] /by [when]
+  Example: deadline review pr /by tomorrow
+  
+  Event:
+  Usage: event [description] /at [when]
+  Example: event presentation /at tomorrow
+  
+  Done:
+  Usage: done [task index]
+  Example: done 1
+  
+>   Usage: event [description] /at [when]
+  Example: event presentation /at tomorrow
+  
+>   Usage: deadline [description] /by [when]
+  Example: deadline review pr /by tomorrow
+  
 >   Here are the tasks in your list:
   1. [T][✘] borrow book
   2. [E][✘] lecture (at: tomorrow 8am)
   3. [D][✘] tutorial (by: i dont know)
-
+  
 >   Usage: done [task index]
   Example: done 1
-
+  
 >   Ok! I've marked this task as done:
     [T][✓] borrow book
-
+  
 >   Ok! I've marked this task as done:
     [E][✓] lecture (at: tomorrow 8am)
-
+  
 >   Ok! I've marked this task as done:
     [D][✓] tutorial (by: i dont know)
-
->   Usage: done [task index]
-  Example: done 1
-
-> Error: Task 4 does not exist
+  
+> Error: Task -1 does not exist  
+> Error: Task 4 does not exist  
 >   Here are the tasks in your list:
   1. [T][✓] borrow book
   2. [E][✓] lecture (at: tomorrow 8am)
   3. [D][✓] tutorial (by: i dont know)
-
+  
 >   Bye. See you next time.
+  

@@ -1,5 +1,7 @@
 package duke;
 
+import duke.exception.EmptyDescriptionException;
+import duke.exception.UnknownCommandException;
 import duke.task.Deadline;
 import duke.task.Event;
 import duke.task.Task;
@@ -8,8 +10,6 @@ import duke.task.Todo;
 import java.util.Scanner;
 
 public class Duke {
-
-    private static final String REGEX_NUM = "\\d+";
 
     private static final int TASKS_CAPACITY = 100;
 
@@ -70,71 +70,129 @@ public class Duke {
         }
     }
 
-    private static void markTaskDone(String cmd) {
+    private static void handleMarkDone(String cmd) {
         String[] words = cmd.split(" ");
-        if (words.length > 1 && words[1].matches(REGEX_NUM)) {
-            int index = Integer.parseInt(words[1]);
-            if (index <= taskCount && index > 0) {
-                tasks[index - 1].markAsDone();
+        int index;
 
-                printResponse("Ok! I've marked this task as done:");
-                printResponse(String.format("  %s", tasks[index - 1]));
-            } else System.out.printf("Error: Task %d does not exist", index);
-        } else {
-            printResponse("Usage: done [task index]");
-            printResponse("Example: done 1");
+        try {
+            index = Integer.parseInt(words[1]);
+        } catch (NumberFormatException e) {
+            printDoneCmdHelp();
+            return;
+        } catch (IndexOutOfBoundsException e) {
+            printDoneCmdHelp();
+            return;
+        }
+
+        try {
+            Task task = tasks[index - 1];
+            task.markAsDone();
+            printResponse("Ok! I've marked this task as done:");
+            printResponse(String.format("  %s", task));
+        } catch (NullPointerException e) {
+            System.out.printf("Error: Task %d does not exist", index);
+        } catch (IndexOutOfBoundsException e) {
+            System.out.printf("Error: Task %d does not exist", index);
         }
     }
 
-    private static Todo parseTodoCommand(String cmd) {
+    private static void printDoneCmdHelp() {
+        printResponse("Usage: done [task index]");
+        printResponse("Example: done 1");
+    }
+
+    private static void handleAddTodo(String cmd) {
         int descriptionIndex = TODO_COMMAND.length();
         String description = cmd.substring(descriptionIndex);
-        return new Todo(description);
+        try {
+            Todo todo = new Todo(description);
+            addTask(todo);
+        } catch (EmptyDescriptionException e) {
+            printTodoCmdHelp();
+        }
     }
 
-    private static Deadline parseDeadlineCommand(String cmd) {
+    private static void printTodoCmdHelp() {
+        printResponse("Usage: todo [description]");
+        printResponse("Example: todo borrow book");
+    }
+
+    private static void handleAddDeadline(String cmd) {
         int descriptionIndex = DEADLINE_COMMAND.length();
         int dateIndex = cmd.indexOf(BY_ARGUMENT);
-        String description = cmd.substring(descriptionIndex, dateIndex - 1);
-        String date = cmd.substring(dateIndex + BY_ARGUMENT.length());
-        return new Deadline(description, date);
+        String description, date;
+
+        try {
+            description = cmd.substring(descriptionIndex, dateIndex - 1);
+            date = cmd.substring(dateIndex + BY_ARGUMENT.length());
+        } catch (StringIndexOutOfBoundsException e) {
+            printDeadlineCmdHelp();
+            return;
+        }
+
+        try {
+            Deadline deadline = new Deadline(description, date);
+            addTask(deadline);
+        } catch (EmptyDescriptionException e) {
+            printTodoCmdHelp();
+        }
     }
 
-    private static Event parseEventCommand(String cmd) {
+    private static void printDeadlineCmdHelp() {
+        printResponse("Usage: deadline [description] /by [when]");
+        printResponse("Example: deadline review pr /by tomorrow");
+    }
+
+    private static void handleAddEvent(String cmd) {
         int descriptionIndex = EVENT_COMMAND.length();
         int dateIndex = cmd.indexOf(AT_ARGUMENT);
-        String description = cmd.substring(descriptionIndex, dateIndex - 1);
-        String date = cmd.substring(dateIndex + AT_ARGUMENT.length());
-        return new Event(description, date);
+        String description, date;
+
+        try {
+            description = cmd.substring(descriptionIndex, dateIndex - 1);
+            date = cmd.substring(dateIndex + AT_ARGUMENT.length());
+        } catch (StringIndexOutOfBoundsException e) {
+            printEventCmdHelp();
+            return;
+        }
+
+        try {
+            Event event = new Event(description, date);
+            addTask(event);
+        } catch (EmptyDescriptionException e) {
+            printTodoCmdHelp();
+        }
     }
 
-    private static Task parseTaskCommand(String cmd) {
-        if (cmd.startsWith(TODO_COMMAND)) {
-            return parseTodoCommand(cmd);
-        } else if (cmd.startsWith(DEADLINE_COMMAND)) {
-            return parseDeadlineCommand(cmd);
-        } else if (cmd.startsWith(EVENT_COMMAND)) {
-            return parseEventCommand(cmd);
-        }
-        return new Task(cmd);
+    private static void printEventCmdHelp() {
+        printResponse("Usage: event [description] /at [when]");
+        printResponse("Example: event presentation /at tomorrow");
     }
 
     private static void addTask(Task task) {
-        printResponse(String.format("Added: %s", task));
         tasks[taskCount++] = task;
+        printResponse(String.format("Added: %s", task));
         printResponse(String.format("You now have %d task%s in your list.", taskCount, (taskCount == 1 ? "" : "s")));
     }
 
-    private static boolean handleCommand(String cmd) {
+    private static boolean handleCommand(String cmd) throws UnknownCommandException {
         if (cmd.equals(BYE_COMMAND)) {
             printResponse("Bye. See you next time.");
             return false;
-        } else if (cmd.equals(LIST_COMMAND)) {
+        }
+
+        if (cmd.startsWith(LIST_COMMAND)) {
             printTasks();
         } else if (cmd.startsWith(DONE_COMMAND)) {
-            markTaskDone(cmd);
+            handleMarkDone(cmd);
+        } else if (cmd.startsWith(TODO_COMMAND)) {
+            handleAddTodo(cmd);
+        } else if (cmd.startsWith(DEADLINE_COMMAND)) {
+            handleAddDeadline(cmd);
+        } else if (cmd.startsWith(EVENT_COMMAND)) {
+            handleAddEvent(cmd);
         } else {
-            addTask(parseTaskCommand(cmd));
+            throw new UnknownCommandException();
         }
 
         return true;
@@ -145,10 +203,41 @@ public class Duke {
         Scanner in = new Scanner(System.in);
 
         welcome();
+
+        boolean stillRunning = true;
         do {
             printPrompt();
-        } while (handleCommand(in.nextLine()));
+
+            try {
+                stillRunning = handleCommand(in.nextLine().trim());
+            } catch (UnknownCommandException e) {
+                printHelp();
+            }
+            printResponse("");
+
+        } while (stillRunning);
 
         in.close();
+    }
+
+    private static void printHelp() {
+        printResponse("Idk what's that boss.");
+        printResponse("Available commands are: help, list, todo, deadline, event, done, bye");
+        printResponse("");
+
+        printResponse("Todo:");
+        printTodoCmdHelp();
+        printResponse("");
+
+        printResponse("Deadline:");
+        printDeadlineCmdHelp();
+        printResponse("");
+
+        printResponse("Event:");
+        printEventCmdHelp();
+        printResponse("");
+
+        printResponse("Done:");
+        printDoneCmdHelp();
     }
 }
