@@ -25,6 +25,7 @@ public class Duke {
     private static final String TODO_COMMAND = "todo ";
 
     private static final String PROMPT = "> ";
+    private static final String PRE_RESPONSE_WHITESPACE = "  ";
 
     private static int taskCount = 0;
     private static Task[] tasks = new Task[TASKS_CAPACITY];
@@ -34,7 +35,28 @@ public class Duke {
     }
 
     private static void printResponse(String response) {
-        System.out.printf("  %s\n", response);
+        System.out.printf("%s%s\n", PRE_RESPONSE_WHITESPACE, response);
+    }
+
+    private static void welcome() {
+        String logo =
+                ""
+                        + "                 _______\n"
+                        + "               _/       \\_\n"
+                        + "              / |       | \\\n"
+                        + "             /  |__   __|  \\\n"
+                        + "            |__/((o| |o))\\__|\n"
+                        + "            |      | |      |\n"
+                        + "            |\\     |_|     /|\n"
+                        + "            | \\           / |\n"
+                        + "             \\| /  ___  \\ |/\n"
+                        + "              \\ | / _ \\ | /\n"
+                        + "               \\_________/\n"
+                        + "                _|_____|_\n"
+                        + "           ____|_________|____\n"
+                        + "          /                   \\\n";
+        System.out.println(logo);
+        System.out.println("Hello. What can I do for you?");
     }
 
     private static void printTasks() {
@@ -100,51 +122,32 @@ public class Duke {
     private static void addTask(Task task) {
         printResponse(String.format("Added: %s", task));
         tasks[taskCount++] = task;
-        printResponse(
-                String.format(
-                        "You now have %d task%s in your list.",
-                        taskCount, (taskCount == 1 ? "" : "s")));
+        printResponse(String.format("You now have %d task%s in your list.", taskCount, (taskCount == 1 ? "" : "s")));
+    }
+
+    private static boolean handleCommand(String cmd) {
+        if (cmd.equals(BYE_COMMAND)) {
+            printResponse("Bye. See you next time.");
+            return false;
+        } else if (cmd.equals(LIST_COMMAND)) {
+            printTasks();
+        } else if (cmd.startsWith(DONE_COMMAND)) {
+            markTaskDone(cmd);
+        } else {
+            addTask(parseTaskCommand(cmd));
+        }
+
+        return true;
     }
 
     public static void main(String[] args) {
-        String logo =
-                ""
-                        + "                 _______\n"
-                        + "               _/       \\_\n"
-                        + "              / |       | \\\n"
-                        + "             /  |__   __|  \\\n"
-                        + "            |__/((o| |o))\\__|\n"
-                        + "            |      | |      |\n"
-                        + "            |\\     |_|     /|\n"
-                        + "            | \\           / |\n"
-                        + "             \\| /  ___  \\ |/\n"
-                        + "              \\ | / _ \\ | /\n"
-                        + "               \\_________/\n"
-                        + "                _|_____|_\n"
-                        + "           ____|_________|____\n"
-                        + "          /                   \\\n";
-        System.out.println(logo);
-        System.out.println("Hello. What can I do for you?");
 
         Scanner in = new Scanner(System.in);
 
-        while (true) {
+        welcome();
+        do {
             printPrompt();
-            String cmd = in.nextLine();
-
-            if (cmd.equals(BYE_COMMAND)) {
-                printResponse("Bye. See you next time.");
-                break;
-            } else if (cmd.equals(LIST_COMMAND)) {
-                printTasks();
-            } else if (cmd.startsWith(DONE_COMMAND)) {
-                markTaskDone(cmd);
-            } else {
-                addTask(parseTaskCommand(cmd));
-            }
-
-            System.out.println("");
-        }
+        } while (handleCommand(in.nextLine()));
 
         in.close();
     }
