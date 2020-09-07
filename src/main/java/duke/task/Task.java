@@ -26,7 +26,7 @@ public class Task {
         return String.format("[%s] %s", getStatusIcon(), description);
     }
 
-    public void markAsDone() {
+    public void setAsDone() {
         this.isDone = true;
     }
 }

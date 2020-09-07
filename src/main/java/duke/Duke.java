@@ -86,7 +86,7 @@ public class Duke {
 
         try {
             Task task = tasks[index - 1];
-            task.markAsDone();
+            task.setAsDone();
             printResponse("Ok! I've marked this task as done:");
             printResponse(String.format("  %s", task));
         } catch (NullPointerException e) {
@@ -170,9 +170,19 @@ public class Duke {
     }
 
     private static void addTask(Task task) {
+        if (taskCount == TASKS_CAPACITY) {
+            printResponse("You got too many tasks boss. I won't add this task. Time to take a rest.");
+            return;
+        }
+
         tasks[taskCount++] = task;
         printResponse(String.format("Added: %s", task));
-        printResponse(String.format("You now have %d task%s in your list.", taskCount, (taskCount == 1 ? "" : "s")));
+
+        String taskWord = "task";
+        if (taskCount != 1) {
+            taskWord += "s";
+        }
+        printResponse(String.format("You now have %d %s in your list.", taskCount, taskWord));
     }
 
     private static boolean handleCommand(String cmd) throws UnknownCommandException {
