@@ -1,6 +1,11 @@
 todo borrow book
 event lecture /at tomorrow 8am
 deadline tutorial /by i dont know
+todo
+event
+deadline
+event nodate
+deadline nodeadline
 list
 done
 done 1
