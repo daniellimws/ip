@@ -23,62 +23,14 @@ Hello. What can I do for you?
 >   Added: [D][✘] tutorial (by: i dont know)
   You now have 3 tasks in your list.
   
->   Idk what's that boss.
-  Available commands are: help, list, todo, deadline, event, done, bye
-  
-  Todo:
-  Usage: todo [description]
+>   Usage: todo [description]
   Example: todo borrow book
   
-  Deadline:
-  Usage: deadline [description] /by [when]
-  Example: deadline review pr /by tomorrow
-  
-  Event:
-  Usage: event [description] /at [when]
+>   Usage: event [description] /at [when]
   Example: event presentation /at tomorrow
   
-  Done:
-  Usage: done [task index]
-  Example: done 1
-  
->   Idk what's that boss.
-  Available commands are: help, list, todo, deadline, event, done, bye
-  
-  Todo:
-  Usage: todo [description]
-  Example: todo borrow book
-  
-  Deadline:
-  Usage: deadline [description] /by [when]
+>   Usage: deadline [description] /by [when]
   Example: deadline review pr /by tomorrow
-  
-  Event:
-  Usage: event [description] /at [when]
-  Example: event presentation /at tomorrow
-  
-  Done:
-  Usage: done [task index]
-  Example: done 1
-  
->   Idk what's that boss.
-  Available commands are: help, list, todo, deadline, event, done, bye
-  
-  Todo:
-  Usage: todo [description]
-  Example: todo borrow book
-  
-  Deadline:
-  Usage: deadline [description] /by [when]
-  Example: deadline review pr /by tomorrow
-  
-  Event:
-  Usage: event [description] /at [when]
-  Example: event presentation /at tomorrow
-  
-  Done:
-  Usage: done [task index]
-  Example: done 1
   
 >   Usage: event [description] /at [when]
   Example: event presentation /at tomorrow
@@ -109,6 +61,20 @@ Hello. What can I do for you?
   1. [T][✓] borrow book
   2. [E][✓] lecture (at: tomorrow 8am)
   3. [D][✓] tutorial (by: i dont know)
+  
+> Error: Task -1 does not exist  
+>   Ok! I've deleted this task:
+    [T][✓] borrow book
+  
+>   Ok! I've deleted this task:
+    [D][✓] tutorial (by: i dont know)
+  
+> Error: Task 3 does not exist  
+>   Usage: delete [task index]
+  Example: delete 1
+  
+>   Here are the tasks in your list:
+  1. [E][✓] lecture (at: tomorrow 8am)
   
 >   Bye. See you next time.
   

@@ -7,28 +7,26 @@ import duke.task.Event;
 import duke.task.Task;
 import duke.task.Todo;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Duke {
-
-    private static final int TASKS_CAPACITY = 100;
-
     private static final String AT_ARGUMENT = "/at ";
     private static final String BY_ARGUMENT = "/by ";
 
     private static final String BYE_COMMAND = "bye";
     private static final String DONE_COMMAND = "done";
     private static final String LIST_COMMAND = "list";
+    private static final String DELETE_COMMAND = "delete";
 
-    private static final String EVENT_COMMAND = "event ";
-    private static final String DEADLINE_COMMAND = "deadline ";
-    private static final String TODO_COMMAND = "todo ";
+    private static final String EVENT_COMMAND = "event";
+    private static final String DEADLINE_COMMAND = "deadline";
+    private static final String TODO_COMMAND = "todo";
 
     private static final String PROMPT = "> ";
     private static final String PRE_RESPONSE_WHITESPACE = "  ";
 
-    private static int taskCount = 0;
-    private static Task[] tasks = new Task[TASKS_CAPACITY];
+    private static ArrayList<Task> tasks = new ArrayList<Task>();
 
     private static void printPrompt() {
         System.out.print(PROMPT);
@@ -60,37 +58,31 @@ public class Duke {
     }
 
     private static void printTasks() {
-        if (taskCount == 0) {
+        if (tasks.size() == 0) {
             printResponse("There are currently no tasks in your list.");
             return;
         }
         printResponse("Here are the tasks in your list:");
-        for (int i = 0; i < taskCount; ++i) {
-            printResponse(String.format("%d. %s", i + 1, tasks[i]));
+        for (int i = 0; i < tasks.size(); ++i) {
+            printResponse(String.format("%d. %s", i + 1, tasks.get(i)));
         }
     }
 
-    private static void handleMarkDone(String cmd) {
-        String[] words = cmd.split(" ");
+    private static void handleMarkDone(String args) {
         int index;
 
         try {
-            index = Integer.parseInt(words[1]);
+            index = Integer.parseInt(args);
         } catch (NumberFormatException e) {
-            printDoneCmdHelp();
-            return;
-        } catch (IndexOutOfBoundsException e) {
             printDoneCmdHelp();
             return;
         }
 
         try {
-            Task task = tasks[index - 1];
+            Task task = tasks.get(index - 1);
             task.setAsDone();
             printResponse("Ok! I've marked this task as done:");
             printResponse(String.format("  %s", task));
-        } catch (NullPointerException e) {
-            System.out.printf("Error: Task %d does not exist", index);
         } catch (IndexOutOfBoundsException e) {
             System.out.printf("Error: Task %d does not exist", index);
         }
@@ -101,11 +93,33 @@ public class Duke {
         printResponse("Example: done 1");
     }
 
-    private static void handleAddTodo(String cmd) {
-        int descriptionIndex = TODO_COMMAND.length();
-        String description = cmd.substring(descriptionIndex);
+    private static void handleDelete(String args) {
+        int index;
+
         try {
-            Todo todo = new Todo(description);
+            index = Integer.parseInt(args);
+        } catch (NumberFormatException e) {
+            printDeleteCmdHelp();
+            return;
+        }
+
+        try {
+            Task task = tasks.remove(index - 1);
+            printResponse("Ok! I've deleted this task:");
+            printResponse(String.format("  %s", task));
+        } catch (IndexOutOfBoundsException e) {
+            System.out.printf("Error: Task %d does not exist", index);
+        }
+    }
+
+    private static void printDeleteCmdHelp() {
+        printResponse("Usage: delete [task index]");
+        printResponse("Example: delete 1");
+    }
+
+    private static void handleAddTodo(String args) {
+        try {
+            Todo todo = new Todo(args);
             addTask(todo);
         } catch (EmptyDescriptionException e) {
             printTodoCmdHelp();
@@ -117,14 +131,13 @@ public class Duke {
         printResponse("Example: todo borrow book");
     }
 
-    private static void handleAddDeadline(String cmd) {
-        int descriptionIndex = DEADLINE_COMMAND.length();
-        int dateIndex = cmd.indexOf(BY_ARGUMENT);
+    private static void handleAddDeadline(String args) {
+        int dateIndex = args.indexOf(BY_ARGUMENT);
         String description, date;
 
         try {
-            description = cmd.substring(descriptionIndex, dateIndex - 1);
-            date = cmd.substring(dateIndex + BY_ARGUMENT.length());
+            description = args.substring(0, dateIndex - 1);
+            date = args.substring(dateIndex + BY_ARGUMENT.length());
         } catch (StringIndexOutOfBoundsException e) {
             printDeadlineCmdHelp();
             return;
@@ -143,14 +156,13 @@ public class Duke {
         printResponse("Example: deadline review pr /by tomorrow");
     }
 
-    private static void handleAddEvent(String cmd) {
-        int descriptionIndex = EVENT_COMMAND.length();
-        int dateIndex = cmd.indexOf(AT_ARGUMENT);
+    private static void handleAddEvent(String args) {
+        int dateIndex = args.indexOf(AT_ARGUMENT);
         String description, date;
 
         try {
-            description = cmd.substring(descriptionIndex, dateIndex - 1);
-            date = cmd.substring(dateIndex + AT_ARGUMENT.length());
+            description = args.substring(0, dateIndex - 1);
+            date = args.substring(dateIndex + AT_ARGUMENT.length());
         } catch (StringIndexOutOfBoundsException e) {
             printEventCmdHelp();
             return;
@@ -170,19 +182,14 @@ public class Duke {
     }
 
     private static void addTask(Task task) {
-        if (taskCount == TASKS_CAPACITY) {
-            printResponse("You got too many tasks boss. I won't add this task. Time to take a rest.");
-            return;
-        }
-
-        tasks[taskCount++] = task;
+        tasks.add(task);
         printResponse(String.format("Added: %s", task));
 
         String taskWord = "task";
-        if (taskCount != 1) {
+        if (tasks.size() != 1) {
             taskWord += "s";
         }
-        printResponse(String.format("You now have %d %s in your list.", taskCount, taskWord));
+        printResponse(String.format("You now have %d %s in your list.", tasks.size(), taskWord));
     }
 
     private static boolean handleCommand(String cmd) throws UnknownCommandException {
@@ -191,16 +198,28 @@ public class Duke {
             return false;
         }
 
-        if (cmd.startsWith(LIST_COMMAND)) {
+        String cmdName = cmd;
+        String cmdArgs = "";
+        int spaceIndex = cmd.indexOf(" ");
+        if (spaceIndex != -1) {
+            cmdName = cmd.substring(0, spaceIndex).trim();
+            cmdArgs = cmd.substring(spaceIndex + 1).trim();
+        }
+
+        cmd = cmd.toLowerCase();
+
+        if (cmdName.equals(LIST_COMMAND)) {
             printTasks();
-        } else if (cmd.startsWith(DONE_COMMAND)) {
-            handleMarkDone(cmd);
-        } else if (cmd.startsWith(TODO_COMMAND)) {
-            handleAddTodo(cmd);
-        } else if (cmd.startsWith(DEADLINE_COMMAND)) {
-            handleAddDeadline(cmd);
-        } else if (cmd.startsWith(EVENT_COMMAND)) {
-            handleAddEvent(cmd);
+        } else if (cmdName.equals(DONE_COMMAND)) {
+            handleMarkDone(cmdArgs);
+        } else if (cmdName.equals(TODO_COMMAND)) {
+            handleAddTodo(cmdArgs);
+        } else if (cmdName.equals(DEADLINE_COMMAND)) {
+            handleAddDeadline(cmdArgs);
+        } else if (cmdName.equals(EVENT_COMMAND)) {
+            handleAddEvent(cmdArgs);
+        } else if (cmdName.equals(DELETE_COMMAND)) {
+            handleDelete(cmdArgs);
         } else {
             throw new UnknownCommandException();
         }
