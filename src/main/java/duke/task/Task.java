@@ -2,7 +2,7 @@ package duke.task;
 
 import duke.exception.EmptyDescriptionException;
 
-public class Task {
+public abstract class Task {
     protected String description;
     protected boolean isDone;
 
@@ -24,6 +24,13 @@ public class Task {
 
     public String toString() {
         return String.format("[%s] %s", getStatusIcon(), description);
+    }
+
+    protected abstract String getSerializeType();
+
+    public String serialized() {
+        String isDoneString = isDone ? "Y" : "N";
+        return String.format("%s,%s,%s", getSerializeType(), isDoneString, description);
     }
 
     public void setAsDone() {

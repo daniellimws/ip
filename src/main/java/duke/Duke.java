@@ -7,6 +7,11 @@ import duke.task.Event;
 import duke.task.Task;
 import duke.task.Todo;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -27,6 +32,9 @@ public class Duke {
     private static final String PRE_RESPONSE_WHITESPACE = "  ";
 
     private static ArrayList<Task> tasks = new ArrayList<Task>();
+
+    private static final String DATA_DIR = "data";
+    private static final String SAVE_PATH = "data/duke.txt";
 
     private static void printPrompt() {
         System.out.print(PROMPT);
@@ -107,6 +115,7 @@ public class Duke {
             Task task = tasks.remove(index - 1);
             printResponse("Ok! I've deleted this task:");
             printResponse(String.format("  %s", task));
+            saveData();
         } catch (IndexOutOfBoundsException e) {
             System.out.printf("Error: Task %d does not exist", index);
         }
@@ -190,6 +199,8 @@ public class Duke {
             taskWord += "s";
         }
         printResponse(String.format("You now have %d %s in your list.", tasks.size(), taskWord));
+
+        saveData();
     }
 
     private static boolean handleCommand(String cmd) throws UnknownCommandException {
@@ -227,11 +238,64 @@ public class Duke {
         return true;
     }
 
+    private static void ensureDataDir() {
+        File directory = new File(DATA_DIR);
+        if (!directory.exists()) {
+            directory.mkdir();
+        }
+    }
+
+    private static void loadData() {
+        File saveFile = new File(SAVE_PATH);
+        Scanner scanner = null;
+        try {
+            scanner = new Scanner(saveFile);
+            while (scanner.hasNext()) {
+                tasks.add(parseTaskLine(scanner.nextLine()));
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("Either this is your first time using, or your previously saved data is losted");
+        }
+    }
+
+    private static Task parseTaskLine(String taskLine) {
+        String[] tokens = taskLine.split(",");
+        String type = tokens[0];
+        boolean isDone = tokens[1].equals("Y");
+        String description = tokens[2];
+
+        if (type.equals("T")) {
+            return new Todo(description);
+        }
+
+        String additionalInfo = tokens[3];
+        if (type.equals("D")) {
+            return new Deadline(description, additionalInfo);
+        } else {
+            return new Event(description, additionalInfo);
+        }
+    }
+
+    private static void saveData() {
+        FileWriter fileWriter = null;
+        try {
+            fileWriter = new FileWriter(SAVE_PATH);
+            for (Task task : tasks) {
+                fileWriter.write(task.serialized() + "\n");
+            }
+            fileWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("There is something wrong with saving the tasks data.");
+        }
+    }
+
     public static void main(String[] args) {
+        ensureDataDir();
+        loadData();
+        welcome();
 
         Scanner in = new Scanner(System.in);
-
-        welcome();
 
         boolean stillRunning = true;
         do {

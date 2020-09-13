@@ -1,0 +1,2 @@
+T,N,borrow
+E,N,aaa,aaa

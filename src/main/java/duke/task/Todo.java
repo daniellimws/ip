@@ -9,4 +9,9 @@ public class Todo extends Task {
     public String toString() {
         return String.format("[T]%s", super.toString());
     }
+
+    @Override
+    protected String getSerializeType() {
+        return "T";
+    }
 }

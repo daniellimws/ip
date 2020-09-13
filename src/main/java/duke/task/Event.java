@@ -12,4 +12,14 @@ public class Event extends Task {
     public String toString() {
         return String.format("[E]%s (at: %s)", super.toString(), date);
     }
+
+    @Override
+    protected String getSerializeType() {
+        return "E";
+    }
+
+    @Override
+    public String serialized() {
+        return String.format("%s,%s", super.serialized(), date);
+    }
 }

@@ -14,6 +14,25 @@
           /                   \
 
 Hello. What can I do for you?
+>   Here are the tasks in your list:
+  1. [T][✘] borrow book
+  2. [E][✘] lecture (at: tomorrow 8am)
+  3. [D][✘] tutorial (by: i dont know)
+  
+> Error: Task -1 does not exist  
+>   Ok! I've deleted this task:
+    [D][✘] tutorial (by: i dont know)
+  
+>   Ok! I've deleted this task:
+    [E][✘] lecture (at: tomorrow 8am)
+  
+>   Ok! I've deleted this task:
+    [T][✘] borrow book
+  
+> Error: Task 1 does not exist  
+>   Usage: delete [task index]
+  Example: delete 1
+  
 >   Added: [T][✘] borrow book
   You now have 1 task in your list.
   
@@ -62,19 +81,10 @@ Hello. What can I do for you?
   2. [E][✓] lecture (at: tomorrow 8am)
   3. [D][✓] tutorial (by: i dont know)
   
-> Error: Task -1 does not exist  
->   Ok! I've deleted this task:
-    [T][✓] borrow book
-  
->   Ok! I've deleted this task:
-    [D][✓] tutorial (by: i dont know)
-  
-> Error: Task 3 does not exist  
->   Usage: delete [task index]
-  Example: delete 1
-  
 >   Here are the tasks in your list:
-  1. [E][✓] lecture (at: tomorrow 8am)
+  1. [T][✓] borrow book
+  2. [E][✓] lecture (at: tomorrow 8am)
+  3. [D][✓] tutorial (by: i dont know)
   
 >   Bye. See you next time.
   

@@ -12,4 +12,14 @@ public class Deadline extends Task {
     public String toString() {
         return String.format("[D]%s (by: %s)", super.toString(), date);
     }
+
+    @Override
+    protected String getSerializeType() {
+        return "D";
+    }
+
+    @Override
+    public String serialized() {
+        return String.format("%s,%s", super.serialized(), date);
+    }
 }

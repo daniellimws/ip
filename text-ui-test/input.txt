@@ -1,3 +1,10 @@
+list
+delete -1
+delete 3
+delete 2
+delete 1
+delete 1
+delete computer
 todo borrow book
 event lecture /at tomorrow 8am
 deadline tutorial /by i dont know
@@ -14,10 +21,5 @@ done 3
 done -1
 done 4
 list
-delete -1
-delete 1
-delete 2
-delete 3
-delete computer
 list
 bye
