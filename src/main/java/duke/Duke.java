@@ -295,14 +295,14 @@ public class Duke {
         loadData();
         welcome();
 
-        Scanner in = new Scanner(System.in);
+        Scanner stdin = new Scanner(System.in);
 
         boolean stillRunning = true;
         do {
             printPrompt();
 
             try {
-                stillRunning = handleCommand(in.nextLine().trim());
+                stillRunning = handleCommand(stdin.nextLine().trim());
             } catch (UnknownCommandException e) {
                 printHelp();
             }
@@ -310,7 +310,7 @@ public class Duke {
 
         } while (stillRunning);
 
-        in.close();
+        stdin.close();
     }
 
     private static void printHelp() {
