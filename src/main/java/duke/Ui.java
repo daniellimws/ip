@@ -156,9 +156,11 @@ public class Ui {
 
         printResponse("Done:");
         printDoneCmdHelp();
+        printResponse("");
 
         printResponse("Delete:");
         printDeleteCmdHelp();
+        printResponse("");
 
         printResponse("Find:");
         printFindCmdHelp();
