@@ -1,5 +1,9 @@
 package duke;
 
+import duke.task.Task;
+
+import java.util.ArrayList;
+
 public class Ui {
 
     private static final String PROMPT = "> ";
@@ -38,15 +42,14 @@ public class Ui {
         System.out.printf("%s%s\n", PRE_RESPONSE_WHITESPACE, response);
     }
 
-    public void printTasks(TaskList taskList) {
-        if (taskList.size() == 0) {
-            printResponse("There are currently no tasks in your list.");
-            return;
-        }
-        printResponse("Here are the tasks in your list:");
+    public void printTasks(ArrayList<Task> taskList) {
         for (int i = 0; i < taskList.size(); ++i) {
-            printResponse(String.format("%d. %s", i + 1, taskList.getTask(i)));
+            printResponse(String.format("%d. %s", i + 1, taskList.get(i)));
         }
+    }
+
+    public void printTasks(TaskList taskList) {
+        printTasks(taskList.getTasks());
     }
 
     public void printDeleteCmdHelp() {
@@ -57,6 +60,11 @@ public class Ui {
     public void printDoneCmdHelp() {
         printResponse("Usage: done [task index]");
         printResponse("Example: done 1");
+    }
+
+    public void printFindCmdHelp() {
+        printResponse("Usage: find [filter]");
+        printResponse("Example: find lecture");
     }
 
     public void printTodoCmdHelp() {
@@ -80,7 +88,7 @@ public class Ui {
     }
 
     public void printHelp() {
-        printResponse("Available commands are: help, list, todo, deadline, event, done, delete, bye");
+        printResponse("Available commands are: help, list, todo, deadline, event, done, delete, find, bye");
         printResponse("");
 
         printResponse("Todo:");
@@ -100,5 +108,8 @@ public class Ui {
 
         printResponse("Delete:");
         printDeleteCmdHelp();
+
+        printResponse("Find:");
+        printFindCmdHelp();
     }
 }
