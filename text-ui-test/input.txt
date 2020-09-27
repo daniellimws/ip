@@ -23,5 +23,7 @@ done 3
 done -1
 done 4
 list
+find lecture
+find skip
 list
 bye

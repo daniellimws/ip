@@ -8,6 +8,8 @@ import duke.task.Task;
 import duke.task.Todo;
 
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 public class Parser {
     private static final String AT_ARGUMENT = "/at ";
@@ -17,6 +19,7 @@ public class Parser {
     private static final String DONE_COMMAND = "done";
     private static final String LIST_COMMAND = "list";
     private static final String DELETE_COMMAND = "delete";
+    private static final String FIND_COMMAND = "find";
 
     private static final String EVENT_COMMAND = "event";
     private static final String DEADLINE_COMMAND = "deadline";
@@ -38,6 +41,15 @@ public class Parser {
 
     public boolean isExit() {
         return isExit;
+    }
+
+    private void handleList() {
+        if (taskList.size() == 0) {
+            ui.printResponse("There are currently no tasks in your list.");
+            return;
+        }
+        ui.printResponse("Here are the tasks in your list:");
+        ui.printTasks(taskList);
     }
 
     private void handleMarkDone(String args) {
@@ -77,6 +89,20 @@ public class Parser {
         } catch (IndexOutOfBoundsException e) {
             System.out.printf("Error: Task %d does not exist", index);
         }
+    }
+
+    private void handleFind(String args) {
+        String filter = args;
+        ArrayList filteredList = (ArrayList) taskList.getTasks().stream().filter((task -> {
+            return task.getDescription().contains(filter);
+        })).collect(Collectors.toList());
+
+        if (filteredList.size() == 0) {
+            ui.printResponse("Could not find any tasks with this filter.");
+            return;
+        }
+        ui.printResponse(String.format("Here are the tasks that contains the text \"%s\"", filter));
+        ui.printTasks(filteredList);
     }
 
     private void handleAddTodo(String args) {
@@ -159,7 +185,7 @@ public class Parser {
         if (cmdName.equals(HELP_COMMAND)) {
             ui.printHelp();
         } else if (cmdName.equals(LIST_COMMAND)) {
-            ui.printTasks(taskList);
+            handleList();
         } else if (cmdName.equals(DONE_COMMAND)) {
             handleMarkDone(cmdArgs);
         } else if (cmdName.equals(TODO_COMMAND)) {
@@ -170,6 +196,8 @@ public class Parser {
             handleAddEvent(cmdArgs);
         } else if (cmdName.equals(DELETE_COMMAND)) {
             handleDelete(cmdArgs);
+        } else if (cmdName.equals(FIND_COMMAND)) {
+            handleFind(cmdArgs);
         } else {
             throw new UnknownCommandException();
         }
