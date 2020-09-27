@@ -1,11 +1,18 @@
 package duke.task;
 
-public class Event extends Task {
-    private String date;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
-    public Event(String description, String date) {
+public class Event extends Task {
+    private Date date;
+    private DateFormat df;
+
+    public Event(String description, String date) throws ParseException {
         super(description);
-        this.date = date;
+        df = new SimpleDateFormat("dd/MM/yy HHmm");
+        this.date = df.parse(date);
     }
 
     @Override
@@ -20,6 +27,6 @@ public class Event extends Task {
 
     @Override
     public String serialized() {
-        return String.format("%s,%s", super.serialized(), date);
+        return String.format("%s,%s", super.serialized(), df.format(date));
     }
 }
