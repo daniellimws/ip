@@ -8,7 +8,12 @@ import duke.task.Task;
 import duke.task.Todo;
 
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.stream.Collectors;
 
+/**
+ * Utility to parse the user input and handle it.
+ */
 public class Parser {
     private static final String AT_ARGUMENT = "/at ";
     private static final String BY_ARGUMENT = "/by ";
@@ -29,6 +34,9 @@ public class Parser {
     private Ui ui;
     private TaskList taskList;
 
+    /**
+     * Creates a Parser object with a reference to a Ui and TaskList object.
+     */
     public Parser(Ui ui, TaskList taskList) {
         isExit = false;
         this.ui = ui;
@@ -36,10 +44,32 @@ public class Parser {
         this.taskList = taskList;
     }
 
+    /**
+     * Gets whether the user wanted to exit the program.
+     *
+     * @return Whether the user wanted to exit the program.
+     */
     public boolean isExit() {
         return isExit;
     }
 
+    /**
+     * Printing out the list of tasks.
+     */
+    private void handleList() {
+        if (taskList.size() == 0) {
+            ui.printResponse("There are currently no tasks in your list.");
+            return;
+        }
+        ui.printResponse("Here are the tasks in your list:");
+        ui.printTasks(taskList);
+    }
+
+    /**
+     * Marks a task as done.
+     *
+     * @param args Index of the task (starting from 1) to be marked as done.
+     */
     private void handleMarkDone(String args) {
         int index;
 
@@ -60,6 +90,11 @@ public class Parser {
         }
     }
 
+    /**
+     * Deletes a task from the list.
+     *
+     * @param args Index of the task (starting from 1) to be deleted.
+     */
     private void handleDelete(String args) {
         int index;
 
@@ -79,6 +114,30 @@ public class Parser {
         }
     }
 
+    /**
+     * Searches for tasks with the given string.
+     *
+     * @param args Keyword to search for.
+     */
+    private void handleFind(String args) {
+        String filter = args;
+        ArrayList filteredList = (ArrayList) taskList.getTasks().stream().filter((task -> {
+            return task.getDescription().contains(filter);
+        })).collect(Collectors.toList());
+
+        if (filteredList.size() == 0) {
+            ui.printResponse("Could not find any tasks with this keyword.");
+            return;
+        }
+        ui.printResponse(String.format("Here are the tasks that contains the text \"%s\"", filter));
+        ui.printTasks(filteredList);
+    }
+
+    /**
+     * Creates a new Todo object and adds it to the list.
+     *
+     * @param args Description of the task.
+     */
     private void handleAddTodo(String args) {
         try {
             Todo todo = new Todo(args);
@@ -88,6 +147,11 @@ public class Parser {
         }
     }
 
+    /**
+     * Creates a new Deadline object and adds it to the list.
+     *
+     * @param args Description and deadline of the task.
+     */
     private void handleAddDeadline(String args) {
         int dateIndex = args.indexOf(BY_ARGUMENT);
         String description, date;
@@ -108,6 +172,11 @@ public class Parser {
         }
     }
 
+    /**
+     * Creates a new Event object and adds it to the list.
+     *
+     * @param args Description and date of the event.
+     */
     private void handleAddEvent(String args) {
         int dateIndex = args.indexOf(AT_ARGUMENT);
         String description, date;
@@ -128,6 +197,11 @@ public class Parser {
         }
     }
 
+    /**
+     * Helper method to add a task to the list.
+     *
+     * @param task Task to be added.
+     */
     private void addTask(Task task) {
         taskList.addTask(task);
         ui.printResponse(String.format("Added: %s", task));
@@ -139,6 +213,11 @@ public class Parser {
         ui.printResponse(String.format("You now have %d %s in your list.", taskList.size(), taskWord));
     }
 
+    /**
+     * Parses a command string and delegates to the respective methods.
+     *
+     * @param cmd Name and arguments of a command.
+     */
     public void handleCommand(String cmd) throws UnknownCommandException {
         if (cmd.equals(BYE_COMMAND)) {
             ui.printResponse("Bye. See you next time.");

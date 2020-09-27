@@ -1,0 +1,144 @@
+                 _______
+               _/       \_
+              / |       | \
+             /  |__   __|  \
+            |__/((o| |o))\__|
+            |      | |      |
+            |\     |_|     /|
+            | \           / |
+             \| /  ___  \ |/
+              \ | / _ \ | /
+               \_________/
+                _|_____|_
+           ____|_________|____
+          /                   \
+
+Hello. What can I do for you?
+>   Idk what's that boss.
+  Available commands are: help, list, todo, deadline, event, done, delete, find, bye
+  
+  Todo:
+  Usage: todo [description]
+  Example: todo borrow book
+  
+  Deadline:
+  Usage: deadline [description] /by [when (format: dd/mm/yy hhmm)]
+  Example: deadline review pr /by tomorrow
+  
+  Event:
+  Usage: event [description] /at [when (format: dd/mm/yy hhmm)]
+  Example: event presentation /at tomorrow
+  
+  Done:
+  Usage: done [task index]
+  Example: done 1
+  Delete:
+  Usage: delete [task index]
+  Example: delete 1
+  Find:
+  Usage: find [filter]
+  Example: find lecture
+  
+>   Available commands are: help, list, todo, deadline, event, done, delete, find, bye
+  
+  Todo:
+  Usage: todo [description]
+  Example: todo borrow book
+  
+  Deadline:
+  Usage: deadline [description] /by [when (format: dd/mm/yy hhmm)]
+  Example: deadline review pr /by tomorrow
+  
+  Event:
+  Usage: event [description] /at [when (format: dd/mm/yy hhmm)]
+  Example: event presentation /at tomorrow
+  
+  Done:
+  Usage: done [task index]
+  Example: done 1
+  Delete:
+  Usage: delete [task index]
+  Example: delete 1
+  Find:
+  Usage: find [filter]
+  Example: find lecture
+  
+>   Here are the tasks in your list:
+  1. [T][✘] borrow book
+  2. [E][✘] lecture (at: Tue Sep 29 08:00:00 SGT 2020)
+  3. [D][✘] tutorial (by: Wed Sep 30 16:00:00 SGT 2020)
+  
+> Error: Task -1 does not exist  
+>   Ok! I've deleted this task:
+    [D][✘] tutorial (by: Wed Sep 30 16:00:00 SGT 2020)
+  
+>   Ok! I've deleted this task:
+    [E][✘] lecture (at: Tue Sep 29 08:00:00 SGT 2020)
+  
+>   Ok! I've deleted this task:
+    [T][✘] borrow book
+  
+> Error: Task 1 does not exist  
+>   Usage: delete [task index]
+  Example: delete 1
+  
+>   Added: [T][✘] borrow book
+  You now have 1 task in your list.
+  
+>   Added: [E][✘] lecture (at: Tue Sep 29 08:00:00 SGT 2020)
+  You now have 2 tasks in your list.
+  
+>   Added: [D][✘] tutorial (by: Wed Sep 30 16:00:00 SGT 2020)
+  You now have 3 tasks in your list.
+  
+>   Usage: todo [description]
+  Example: todo borrow book
+  
+>   Usage: event [description] /at [when (format: dd/mm/yy hhmm)]
+  Example: event presentation /at tomorrow
+  
+>   Usage: deadline [description] /by [when (format: dd/mm/yy hhmm)]
+  Example: deadline review pr /by tomorrow
+  
+>   Usage: event [description] /at [when (format: dd/mm/yy hhmm)]
+  Example: event presentation /at tomorrow
+  
+>   Usage: deadline [description] /by [when (format: dd/mm/yy hhmm)]
+  Example: deadline review pr /by tomorrow
+  
+>   Here are the tasks in your list:
+  1. [T][✘] borrow book
+  2. [E][✘] lecture (at: Tue Sep 29 08:00:00 SGT 2020)
+  3. [D][✘] tutorial (by: Wed Sep 30 16:00:00 SGT 2020)
+  
+>   Usage: done [task index]
+  Example: done 1
+  
+>   Ok! I've marked this task as done:
+    [T][✓] borrow book
+  
+>   Ok! I've marked this task as done:
+    [E][✓] lecture (at: Tue Sep 29 08:00:00 SGT 2020)
+  
+>   Ok! I've marked this task as done:
+    [D][✓] tutorial (by: Wed Sep 30 16:00:00 SGT 2020)
+  
+> Error: Task -1 does not exist  
+> Error: Task 4 does not exist  
+>   Here are the tasks in your list:
+  1. [T][✓] borrow book
+  2. [E][✓] lecture (at: Tue Sep 29 08:00:00 SGT 2020)
+  3. [D][✓] tutorial (by: Wed Sep 30 16:00:00 SGT 2020)
+  
+>   Here are the tasks that contains the text "lecture"
+  1. [E][✓] lecture (at: Tue Sep 29 08:00:00 SGT 2020)
+  
+>   Could not find any tasks with this filter.
+  
+>   Here are the tasks in your list:
+  1. [T][✓] borrow book
+  2. [E][✓] lecture (at: Tue Sep 29 08:00:00 SGT 2020)
+  3. [D][✓] tutorial (by: Wed Sep 30 16:00:00 SGT 2020)
+  
+>   Bye. See you next time.
+  
