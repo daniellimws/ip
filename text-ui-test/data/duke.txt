@@ -1,3 +1,3 @@
 T,N,borrow book
-E,N,lecture,tomorrow 8am
-D,N,tutorial,i dont know
+E,N,lecture,29/09/20 0800
+D,N,tutorial,30/09/20 1600

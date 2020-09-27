@@ -7,6 +7,8 @@ import duke.task.Event;
 import duke.task.Task;
 import duke.task.Todo;
 
+import java.text.ParseException;
+
 public class Parser {
     private static final String AT_ARGUMENT = "/at ";
     private static final String BY_ARGUMENT = "/by ";
@@ -101,8 +103,8 @@ public class Parser {
         try {
             Deadline deadline = new Deadline(description, date);
             addTask(deadline);
-        } catch (EmptyDescriptionException e) {
-            ui.printTodoCmdHelp();
+        } catch (EmptyDescriptionException | ParseException e) {
+            ui.printDeadlineCmdHelp();
         }
     }
 
@@ -121,8 +123,8 @@ public class Parser {
         try {
             Event event = new Event(description, date);
             addTask(event);
-        } catch (EmptyDescriptionException e) {
-            ui.printTodoCmdHelp();
+        } catch (EmptyDescriptionException | ParseException e) {
+            ui.printEventCmdHelp();
         }
     }
 

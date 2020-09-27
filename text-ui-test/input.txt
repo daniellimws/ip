@@ -8,8 +8,8 @@ delete 1
 delete 1
 delete computer
 todo borrow book
-event lecture /at tomorrow 8am
-deadline tutorial /by i dont know
+event lecture /at 29/9/20 0800
+deadline tutorial /by 30/9/20 1600
 todo
 event
 deadline

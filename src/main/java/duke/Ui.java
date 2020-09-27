@@ -65,12 +65,12 @@ public class Ui {
     }
 
     public void printDeadlineCmdHelp() {
-        printResponse("Usage: deadline [description] /by [when]");
+        printResponse("Usage: deadline [description] /by [when (format: dd/mm/yy hhmm)]");
         printResponse("Example: deadline review pr /by tomorrow");
     }
 
     public void printEventCmdHelp() {
-        printResponse("Usage: event [description] /at [when]");
+        printResponse("Usage: event [description] /at [when (format: dd/mm/yy hhmm)]");
         printResponse("Example: event presentation /at tomorrow");
     }
 

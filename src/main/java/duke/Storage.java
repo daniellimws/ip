@@ -10,6 +10,7 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.text.ParseException;
 import java.util.Scanner;
 
 public class Storage {
@@ -36,17 +37,23 @@ public class Storage {
     public void loadData() {
         File saveFile = new File(saveFilePath);
         Scanner scanner = null;
+        int line = 1;
         try {
             scanner = new Scanner(saveFile);
             while (scanner.hasNext()) {
                 taskList.addTask(parseTaskLine(scanner.nextLine()));
+                line++;
             }
         } catch (FileNotFoundException e) {
             System.out.println("Either this is your first time using, or your previously saved data is losted");
+        } catch (ParseException e) {
+            e.printStackTrace();
+            System.out.println(String.format("Save data is corrupted at line %d.", line));
+            System.exit(1);
         }
     }
 
-    private Task parseTaskLine(String taskLine) {
+    private Task parseTaskLine(String taskLine) throws ParseException {
         String[] tokens = taskLine.split(",");
         String type = tokens[0];
         boolean isDone = tokens[1].equals("Y");
