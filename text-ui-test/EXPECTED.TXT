@@ -14,6 +14,49 @@
           /                   \
 
 Hello. What can I do for you?
+>   Idk what's that boss.
+  Available commands are: help, list, todo, deadline, event, done, delete, bye
+  
+  Todo:
+  Usage: todo [description]
+  Example: todo borrow book
+  
+  Deadline:
+  Usage: deadline [description] /by [when]
+  Example: deadline review pr /by tomorrow
+  
+  Event:
+  Usage: event [description] /at [when]
+  Example: event presentation /at tomorrow
+  
+  Done:
+  Usage: done [task index]
+  Example: done 1
+  Delete:
+  Usage: delete [task index]
+  Example: delete 1
+  
+>   Available commands are: help, list, todo, deadline, event, done, delete, bye
+  
+  Todo:
+  Usage: todo [description]
+  Example: todo borrow book
+  
+  Deadline:
+  Usage: deadline [description] /by [when]
+  Example: deadline review pr /by tomorrow
+  
+  Event:
+  Usage: event [description] /at [when]
+  Example: event presentation /at tomorrow
+  
+  Done:
+  Usage: done [task index]
+  Example: done 1
+  Delete:
+  Usage: delete [task index]
+  Example: delete 1
+  
 >   Here are the tasks in your list:
   1. [T][✘] borrow book
   2. [E][✘] lecture (at: tomorrow 8am)

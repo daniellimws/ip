@@ -1,3 +1,5 @@
+morning
+help
 list
 delete -1
 delete 3
