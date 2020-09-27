@@ -115,7 +115,7 @@ public class Ui {
      */
     public void printDeadlineCmdHelp() {
         printResponse("Usage: deadline [description] /by [when (format: dd/mm/yy hhmm)]");
-        printResponse("Example: deadline review pr /by tomorrow");
+        printResponse("Example: deadline review pr /by 27/09/20 1000");
     }
 
     /**
@@ -123,7 +123,7 @@ public class Ui {
      */
     public void printEventCmdHelp() {
         printResponse("Usage: event [description] /at [when (format: dd/mm/yy hhmm)]");
-        printResponse("Example: event presentation /at tomorrow");
+        printResponse("Example: event presentation /at 27/09/20 1000");
     }
 
     /**
