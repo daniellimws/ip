@@ -122,6 +122,12 @@ public class Parser {
      */
     private void handleFind(String args) {
         String filter = args;
+
+        if (filter.isEmpty()) {
+            ui.printFindCmdHelp();
+            return;
+        }
+
         ArrayList filteredList = (ArrayList) taskList.getTasks().stream().filter((task -> {
             return task.getDescription().contains(filter);
         })).collect(Collectors.toList());
