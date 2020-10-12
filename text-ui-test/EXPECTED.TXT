@@ -23,18 +23,20 @@ Hello. What can I do for you?
   
   Deadline:
   Usage: deadline [description] /by [when (format: dd/mm/yy hhmm)]
-  Example: deadline review pr /by tomorrow
+  Example: deadline review pr /by 27/09/20 1000
   
   Event:
   Usage: event [description] /at [when (format: dd/mm/yy hhmm)]
-  Example: event presentation /at tomorrow
+  Example: event presentation /at 27/09/20 1000
   
   Done:
   Usage: done [task index]
   Example: done 1
+  
   Delete:
   Usage: delete [task index]
   Example: delete 1
+  
   Find:
   Usage: find [filter]
   Example: find lecture
@@ -47,18 +49,20 @@ Hello. What can I do for you?
   
   Deadline:
   Usage: deadline [description] /by [when (format: dd/mm/yy hhmm)]
-  Example: deadline review pr /by tomorrow
+  Example: deadline review pr /by 27/09/20 1000
   
   Event:
   Usage: event [description] /at [when (format: dd/mm/yy hhmm)]
-  Example: event presentation /at tomorrow
+  Example: event presentation /at 27/09/20 1000
   
   Done:
   Usage: done [task index]
   Example: done 1
+  
   Delete:
   Usage: delete [task index]
   Example: delete 1
+  
   Find:
   Usage: find [filter]
   Example: find lecture
@@ -95,16 +99,16 @@ Hello. What can I do for you?
   Example: todo borrow book
   
 >   Usage: event [description] /at [when (format: dd/mm/yy hhmm)]
-  Example: event presentation /at tomorrow
+  Example: event presentation /at 27/09/20 1000
   
 >   Usage: deadline [description] /by [when (format: dd/mm/yy hhmm)]
-  Example: deadline review pr /by tomorrow
+  Example: deadline review pr /by 27/09/20 1000
   
 >   Usage: event [description] /at [when (format: dd/mm/yy hhmm)]
-  Example: event presentation /at tomorrow
+  Example: event presentation /at 27/09/20 1000
   
 >   Usage: deadline [description] /by [when (format: dd/mm/yy hhmm)]
-  Example: deadline review pr /by tomorrow
+  Example: deadline review pr /by 27/09/20 1000
   
 >   Here are the tasks in your list:
   1. [T][✘] borrow book

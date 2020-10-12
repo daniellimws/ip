@@ -84,6 +84,7 @@ public class Parser {
         try {
             Task task = taskList.getTask(index - 1);
             task.setAsDone();
+            taskList.setAsModified();
             ui.printResponse("Ok! I've marked this task as done:");
             ui.printResponse(String.format("  %s", task));
         } catch (IndexOutOfBoundsException e) {

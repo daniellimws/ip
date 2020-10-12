@@ -79,7 +79,7 @@ public class Storage {
     private Task parseTaskLine(String taskLine) throws ParseException {
         String[] tokens = taskLine.split(",");
         String type = tokens[0];
-        String description = tokens[2];
+        String description = tokens[2].replace("<cm>",",");
 
         if (type.equals("T")) {
             return new Todo(description);
@@ -97,7 +97,7 @@ public class Storage {
      * Saves the task list into the save file.
      */
     public void saveData() {
-        FileWriter fileWriter = null;
+        FileWriter fileWriter;
         try {
             fileWriter = new FileWriter(saveFilePath);
             for (Task task : taskList.getTasks()) {

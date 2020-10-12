@@ -30,7 +30,8 @@ public abstract class Task {
 
     public String serialized() {
         String isDoneString = isDone ? "Y" : "N";
-        return String.format("%s,%s,%s", getSerializeType(), isDoneString, description);
+        return String.format("%s,%s,%s", getSerializeType(), isDoneString,
+                description.replace(",", "<cm>"));
     }
 
     public void setAsDone() {
