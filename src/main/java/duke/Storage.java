@@ -79,7 +79,6 @@ public class Storage {
     private Task parseTaskLine(String taskLine) throws ParseException {
         String[] tokens = taskLine.split(",");
         String type = tokens[0];
-        boolean isDone = tokens[1].equals("Y");
         String description = tokens[2];
 
         if (type.equals("T")) {

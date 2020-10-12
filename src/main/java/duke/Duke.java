@@ -1,18 +1,8 @@
 package duke;
 
-import duke.exception.EmptyDescriptionException;
 import duke.exception.UnknownCommandException;
-import duke.task.Deadline;
-import duke.task.Event;
-import duke.task.Task;
-import duke.task.Todo;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.nio.file.Path;
-import java.util.ArrayList;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 public class Duke {
@@ -47,6 +37,8 @@ public class Duke {
                 }
             } catch (UnknownCommandException e) {
                 ui.showUnknownCommandError();
+            } catch (NoSuchElementException e) {
+                break;
             }
             ui.printResponse("");
 
