@@ -60,17 +60,6 @@ public class TaskList {
     }
 
     /**
-     * Removes a given task from the list.
-     * @param task Task to be removed from the list, if present
-     * @return The task that was removed from the list.
-     */
-    public Task removeTask(Task task) {
-        tasks.remove(task);
-        setAsModified();
-        return task;
-    }
-
-    /**
      * Removes a task from the list based on the given index.
      * @param index Index of the task that is to be removed.
      * @return Task that was removed from the list.
